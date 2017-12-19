@@ -26,7 +26,7 @@
   "author": "Google",
   "repository": {
     "type": "git",
-    "url": "https://github.com/firebase/firebaseui-web.git"
+    "url": "https://github.com/jvartanian94/firebaseui-web.git"
   },
   "license": "Apache-2.0",
   "devDependencies": {
