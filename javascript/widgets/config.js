@@ -90,7 +90,7 @@ firebaseui.auth.CredentialHelper = {
 /**
  * The configuration sign-in success callback.
  * @typedef {function(
- *     !firebase.User, ?firebase.auth.AuthCredential=, string=): boolean}
+ *     !firebase.User, ?firebase.auth.AuthCredential=, string=, ?firebaseui.auth.PhoneNumber=): boolean}
  */
 firebaseui.auth.callback.signInSuccess;
 
@@ -516,6 +516,21 @@ firebaseui.auth.widget.Config.prototype.isDisplayNameRequired = function() {
     return /** @type {boolean} */ (!!signInOptions['requireDisplayName']);
   }
   return true;
+};
+
+/**
+ * @return {boolean} Whether the phoneNumber should be displayed.
+ * Defaults to true.
+ */
+firebaseui.auth.widget.Config.prototype.isPhoneNumberRequired = function() {
+    // Get provided sign-in options for specified provider.
+    var signInOptions = this.getSignInOptionsForProvider_(firebase.auth.EmailAuthProvider.PROVIDER_ID);
+
+    if (signInOptions &&
+        typeof signInOptions['requirePhoneNumber'] !== 'undefined') {
+      return /** @type {boolean} */ (!!signInOptions['requirePhoneNumber']);
+    }
+    return true;
 };
 
 

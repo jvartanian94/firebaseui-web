@@ -392,17 +392,19 @@ firebaseui.auth.widget.handler.common.selectFromAccountChooser = function(
  *     the user was already signed out from the temporary auth instance.
  * @param {boolean=} opt_alreadySignedIn Whether user already signed in on
  *     external auth instance.
+ * @param {?firebaseui.auth.PhoneNumber=} opt_phoneNumber User's phone number.
  * @package
  */
 firebaseui.auth.widget.handler.common.setLoggedIn =
-    function(app, component, credential, opt_user, opt_alreadySignedIn) {
+    function(app, component, credential, opt_user, opt_alreadySignedIn, opt_phoneNumber) {
   if (!!opt_alreadySignedIn) {
     // Already signed in on external auth instance.
     firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
         app,
         component,
         /** @type {!firebase.User} */ (app.getExternalAuth().currentUser),
-        credential);
+        credential,
+        opt_phoneNumber);
     return;
   }
   // This should not occur.
@@ -480,7 +482,7 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
         /** @type {!firebase.auth.AuthCredential} */ (credential))
         .then(function(user) {
           firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
-              app, component, user, outputCred);
+              app, component, user, outputCred, opt_phoneNumber);
           // Catch error when signInSuccessUrl is required and not provided.
         }, onError).then(function() {}, onError));
   }, onError));
@@ -499,10 +501,11 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
  *     external auth instance.
  * @param {?firebase.auth.AuthCredential} credential The auth credential
  *     object.
+ * @param {?firebaseui.auth.PhoneNumber=} phoneNumber The phone number
  * @private
  */
 firebaseui.auth.widget.handler.common.setUserLoggedInExternal_ =
-    function(app, component, user, credential) {
+    function(app, component, user, credential, phoneNumber) {
   // Finish the flow by redirecting to sign-in success URL.
   var callback = app.getConfig().getSignInSuccessCallback();
   // Get redirect URL if it exists in non persistent storage.
@@ -521,7 +524,8 @@ firebaseui.auth.widget.handler.common.setUserLoggedInExternal_ =
         callback(
             /** @type {!firebase.User} */ (user),
             credential,
-            redirectUrl)) {
+            redirectUrl,
+            phoneNumber)) {
       // Whether sign-in widget is redirecting.
       isRedirecting = true;
       // signInSuccessUrl is only required if there's no callback or it
@@ -541,7 +545,8 @@ firebaseui.auth.widget.handler.common.setUserLoggedInExternal_ =
         callback(
             /** @type {!firebase.User} */ (user),
             credential,
-            redirectUrl)) {
+            redirectUrl,
+            phoneNumber)) {
       // Sign-in widget is redirecting.
       isRedirecting = true;
       // signInSuccessUrl is only required if there's no callback or it

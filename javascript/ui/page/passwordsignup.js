@@ -32,6 +32,7 @@ goog.require('firebaseui.auth.ui.page.Base');
  * Password sign-up UI component.
  * @param {?string} tosUrl The ToS URL.
  * @param {boolean} requireDisplayName Whether to show the display name.
+ * @param {boolean} requirePhoneNumber Whether to show the phone number.
  * @param {function()} onSubmitClick Callback to invoke when the submit button
  *     is clicked.
  * @param {function()=} opt_onCancelClick Callback to invoke when the cancel
@@ -45,6 +46,7 @@ goog.require('firebaseui.auth.ui.page.Base');
 firebaseui.auth.ui.page.PasswordSignUp = function(
     tosUrl,
     requireDisplayName,
+    requirePhoneNumber,
     onSubmitClick,
     opt_onCancelClick,
     opt_email,
@@ -57,6 +59,7 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
       {
         email: opt_email,
         requireDisplayName: requireDisplayName,
+        requirePhoneNumber: requirePhoneNumber,
         name: opt_name,
         tosUrl: tosUrl,
         allowCancel: !!opt_onCancelClick
@@ -66,6 +69,7 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
   this.onSubmitClick_ = onSubmitClick;
   this.onCancelClick_ = opt_onCancelClick;
   this.requireDisplayName_ = requireDisplayName;
+  this.requirePhoneNumber_ = requirePhoneNumber;
 };
 goog.inherits(firebaseui.auth.ui.page.PasswordSignUp,
     firebaseui.auth.ui.page.Base);
@@ -76,6 +80,9 @@ firebaseui.auth.ui.page.PasswordSignUp.prototype.enterDocument = function() {
   this.initEmailElement();
   if (this.requireDisplayName_) {
     this.initNameElement();
+  }
+  if (this.requirePhoneNumber_) {
+      this.initPhoneNumberElement();
   }
   this.initNewPasswordElement();
   this.initFormElement(this.onSubmitClick_, this.onCancelClick_);
@@ -98,9 +105,16 @@ firebaseui.auth.ui.page.PasswordSignUp.prototype.disposeInternal = function() {
  */
 firebaseui.auth.ui.page.PasswordSignUp.prototype.setupFocus_ = function() {
   // Focus order.
-  if (this.requireDisplayName_) {
+  if (this.requireDisplayName_ && !this.requirePhoneNumber_) {
     this.focusToNextOnEnter(this.getEmailElement(), this.getNameElement());
     this.focusToNextOnEnter(this.getNameElement(), this.getNewPasswordElement());
+  } else if (this.requireDisplayName_ && this.requirePhoneNumber_) {
+      this.focusToNextOnEnter(this.getEmailElement(), this.getNameElement());
+      this.focusToNextOnEnter(this.getNameElement(), this.getPhoneNumberElement());
+      this.focusToNextOnEnter(this.getPhoneNumberElement(), this.getNewPasswordElement());
+  } else if (!this.requireDisplayName_ && this.requirePhoneNumber_) {
+      this.focusToNextOnEnter(this.getEmailElement(), this.getPhoneNumberElement());
+      this.focusToNextOnEnter(this.getPhoneNumberElement(), this.getNewPasswordElement());
   } else {
     this.focusToNextOnEnter(this.getEmailElement(), this.getNewPasswordElement());
   }
@@ -118,6 +132,10 @@ firebaseui.auth.ui.page.PasswordSignUp.prototype.setupFocus_ = function() {
   } else if (this.requireDisplayName_ &&
       !firebaseui.auth.ui.element.getInputValue(this.getNameElement())) {
     this.getNameElement().focus();
+  } else if (this.requirePhoneNumber_ &&
+      !firebaseui.auth.ui.element.getInputValue(this.getPhoneNumberElement())) {
+    this.getPhoneNumberElement().focus();
+    goog.dom.selection.setCursorPosition(this.getPhoneNumberElement(), (this.getPhoneNumberElement().value || '').length);
   } else {
     this.getNewPasswordElement().focus();
   }
@@ -149,6 +167,16 @@ goog.mixin(
           firebaseui.auth.ui.element.name.initNameElement,
       checkAndGetName:
           firebaseui.auth.ui.element.name.checkAndGetName,
+
+      // For phone.
+      getPhoneNumberElement:
+          firebaseui.auth.ui.element.phoneNumber.getPhoneNumberElement,
+      getPhoneNumberErrorElement:
+          firebaseui.auth.ui.element.phoneNumber.getPhoneNumberErrorElement,
+      initPhoneNumberElement:
+          firebaseui.auth.ui.element.phoneNumber.initPhoneNumberElement,
+      getPhoneNumberValue:
+          firebaseui.auth.ui.element.phoneNumber.getPhoneNumberValue,
 
       // For new password.
       getNewPasswordElement:

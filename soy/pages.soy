@@ -81,6 +81,7 @@
 {template .passwordSignUp}
   {@param? email: string} /** The email address to prefill. */
   {@param? requireDisplayName: bool} /** Whether to show the display name. */
+  {@param? requirePhoneNumber: bool} /** Whether to show the phone number. */
   {@param? name: string} /** The name to prefill. */
   {@param? tosUrl: string} /** The Terms of Service URL. */
   {@param? allowCancel: bool} /** Whether to show the cancel link. */
@@ -95,6 +96,9 @@
         {call firebaseui.auth.soy2.element.email data="all" /}
         {if $requireDisplayName}
           {call firebaseui.auth.soy2.element.name data="all" /}
+        {/if}
+        {if $requirePhoneNumber}
+          {call firebaseui.auth.soy2.element.phoneNumber data="all" /}
         {/if}
         {call firebaseui.auth.soy2.element.newPassword}
           {param choose: true /}
