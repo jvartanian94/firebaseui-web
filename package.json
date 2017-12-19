@@ -1,5 +1,5 @@
 {
-  "name": "firebaseui",
+  "name": "firebaseui-phone-in-signup",
   "version": "2.5.1",
   "description": "Javascript library for customizable UI on top of Firebase SDK",
   "files": [
