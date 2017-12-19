@@ -49,6 +49,7 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
   var component = new firebaseui.auth.ui.page.PasswordSignUp(
       app.getConfig().getTosUrl(),
       app.getConfig().isDisplayNameRequired(),
+      app.getConfig().isPhoneNumberRequired(),
       // On submit.
       function() {
         firebaseui.auth.widget.handler.onSignUpSubmit_(app, component);
@@ -71,6 +72,7 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
  */
 firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
   var requireDisplayName = app.getConfig().isDisplayNameRequired();
+  var requirePhoneNumber = app.getConfig().isPhoneNumberRequired();
 
   // Check fields are valid.
   var email = component.checkAndGetEmail();
@@ -78,6 +80,11 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
   var name = null;
   if (requireDisplayName) {
     name = component.checkAndGetName();
+  }
+
+  var phoneNumber = null;
+  if (requirePhoneNumber) {
+    phoneNumber = component.getPhoneNumberValue();
   }
 
   var password = component.checkAndGetNewPassword();
@@ -112,11 +119,11 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
                 // Pass password credential to complete the sign-in to original
                 // auth instance.
                 firebaseui.auth.widget.handler.common.setLoggedIn(
-                    app, component, emailPassCred);
+                    app, component, emailPassCred, undefined, false, phoneNumber);
               }));
         } else {
           return firebaseui.auth.widget.handler.common.setLoggedIn(
-              app, component, emailPassCred);
+              app, component, emailPassCred, undefined, false, phoneNumber);
         }
       },
       function(error) {
