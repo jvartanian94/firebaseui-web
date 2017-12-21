@@ -525,7 +525,7 @@ firebaseui.auth.widget.handler.common.setUserLoggedInExternal_ =
             /** @type {!firebase.User} */ (user),
             credential,
             redirectUrl,
-            phoneNumber)) {
+            (phoneNumber && phoneNumber.getPhoneNumber()) || null)) {
       // Whether sign-in widget is redirecting.
       isRedirecting = true;
       // signInSuccessUrl is only required if there's no callback or it
@@ -546,7 +546,7 @@ firebaseui.auth.widget.handler.common.setUserLoggedInExternal_ =
             /** @type {!firebase.User} */ (user),
             credential,
             redirectUrl,
-            phoneNumber)) {
+            (phoneNumber && phoneNumber.getPhoneNumber()) || null)) {
       // Sign-in widget is redirecting.
       isRedirecting = true;
       // signInSuccessUrl is only required if there's no callback or it

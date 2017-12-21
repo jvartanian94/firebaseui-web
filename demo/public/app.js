@@ -41,26 +41,9 @@ function getUiConfig() {
         clientId: CLIENT_ID
       },
       {
-        provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-        scopes :[
-          'public_profile',
-          'email',
-          'user_likes',
-          'user_friends'
-        ]
-      },
-      firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-      firebase.auth.GithubAuthProvider.PROVIDER_ID,
-      {
         provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
         // Whether the display name should be displayed in Sign Up page.
         requireDisplayName: true
-      },
-      {
-        provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-        recaptchaParameters: {
-          size: getRecaptchaMode()
-        }
       }
     ],
     // Terms of service url.

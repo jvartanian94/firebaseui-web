@@ -90,7 +90,7 @@ firebaseui.auth.CredentialHelper = {
 /**
  * The configuration sign-in success callback.
  * @typedef {function(
- *     !firebase.User, ?firebase.auth.AuthCredential=, string=, ?firebaseui.auth.PhoneNumber=): boolean}
+ *     !firebase.User, ?firebase.auth.AuthCredential=, string=, ?string=): boolean}
  */
 firebaseui.auth.callback.signInSuccess;
 
