@@ -533,6 +533,17 @@ firebaseui.auth.widget.Config.prototype.isPhoneNumberRequired = function() {
     return true;
 };
 
+firebaseui.auth.widget.Config.prototype.displayRegisterText = function() {
+    // Get provided sign-in options for specified provider.
+    var signInOptions = this.getSignInOptionsForProvider_(firebase.auth.EmailAuthProvider.PROVIDER_ID);
+
+    if (signInOptions &&
+        typeof signInOptions['displayRegisterText'] !== 'undefined') {
+      return /** @type {boolean} */ (!!signInOptions['displayRegisterText']);
+    }
+    return false;
+};
+
 
 /** @return {boolean} Whether to prefer popup mode. */
 firebaseui.auth.widget.Config.prototype.getPopupMode = function() {

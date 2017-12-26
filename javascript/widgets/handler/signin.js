@@ -42,12 +42,14 @@ firebaseui.auth.widget.handler.handleSignIn = function(
       firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app) &&
       // accountchooser.com disabled.
       !app.getConfig().isAccountChooserEnabled();
+  var displayRegisterText = app.getConfig().displayRegisterText();
   // Render the UI.
   var component = new firebaseui.auth.ui.page.SignIn(
       // On submit.
       function() {
         firebaseui.auth.widget.handler.onSignInEmailEnter_(app, component);
       },
+      displayRegisterText,
       // On cancel.
       hideCancelButton ? null : function() {
         // Downside is if only email auth provider is selected and

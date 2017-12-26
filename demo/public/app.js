@@ -32,18 +32,11 @@ function getUiConfig() {
     // Opens IDP Providers sign-in flow in a popup.
     'signInFlow': 'popup',
     'signInOptions': [
-      // TODO(developer): Remove the providers you don't need for your app.
-      {
-        provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        // Required to enable this provider in One-Tap Sign-up.
-        authMethod: 'https://accounts.google.com',
-        // Required to enable ID token credentials for this provider.
-        clientId: CLIENT_ID
-      },
       {
         provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
         // Whether the display name should be displayed in Sign Up page.
-        requireDisplayName: true
+        requireDisplayName: true,
+        displayRegisterText: true
       }
     ],
     // Terms of service url.

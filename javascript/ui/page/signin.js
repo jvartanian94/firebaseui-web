@@ -31,6 +31,7 @@ goog.require('goog.dom.selection');
  * UI component for the user to enter their email.
  * @param {function()} onEmailEnter Callback to invoke when enter key (or its
  *     equivalent) is detected.
+ * @param {boolean} displayRegisterText whether to display the title as registering the user
  * @param {?function()=} opt_onCancelClick Callback to invoke when cancel button
  *     is clicked.
  * @param {string=} opt_email The email to prefill.
@@ -40,6 +41,7 @@ goog.require('goog.dom.selection');
  */
 firebaseui.auth.ui.page.SignIn = function(
     onEmailEnter,
+    displayRegisterText,
     opt_onCancelClick,
     opt_email,
     opt_domHelper) {
@@ -47,7 +49,7 @@ firebaseui.auth.ui.page.SignIn = function(
       this,
       'constructor',
       firebaseui.auth.soy2.page.signIn,
-      {email: opt_email, displayCancelButton: !!opt_onCancelClick},
+      {email: opt_email, displayCancelButton: !!opt_onCancelClick, displayRegisterText: displayRegisterText},
       opt_domHelper,
       'signIn');
   this.onEmailEnter_ = onEmailEnter;
